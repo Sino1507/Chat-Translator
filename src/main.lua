@@ -15,7 +15,9 @@ shared.import = function(path)
     return import
 end
 
-print('Yes!')
+shared.info = function(args)
+    if shared.debugMode then return print('[DEBUG]',args) end
+end
 
 local Services = shared.import('modules/Services.lua')
 Services:GetServices(
@@ -27,22 +29,18 @@ Services:GetServices(
     }
 )
 
-print(shared.HttpService)
-
 local BloxstrapRPC = shared.import('modules/BloxstrapRPC.lua')
 shared.BloxstrapRPC = BloxstrapRPC
 
-BloxstrapRPC.SetRichPresence({
-    details = "Testing!",
-    state = 'This is a test :D!',
-    largeImage = {
-        assetId = 16875079348,
-        hoverText = "Using something"
-    },
-    smallImage = {
-        assetId = 6925817108,
-        hoverText = shared.Players.LocalPlayer.Name
-    }
-})
+local Connections = shared.import('modules/Connections.lua')
 
-print('Done!')
+local ExploitSupport = shared.import('modules/ExploitSupport.lua')
+
+if not ExploitSupport:Test(hookmetamethod, false) or not ExploitSupport:Test(hookfunction, false) or not ExploitSupport:Test(request, false) then
+    error('Exploit is not supported!')
+end
+
+shared.info('Everything mandetory is now imported. Beginning...')
+
+local isoCodes = import('modules/isoCodes.lua')
+shared.info('Currently supported isoCodes:', shared.HttpService:JSONEncode(shared.isoCodes))

@@ -26,6 +26,8 @@ function BloxstrapRPC.SendMessage(command: string, data: any)
 end
 
 function BloxstrapRPC.SetRichPresence(data: RichPresence)
+    if shared.useBloxstrapRPC == false then return end
+    
     if data.timeStart ~= nil then
         data.timeStart = math.round(data.timeStart)
     end
