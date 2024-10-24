@@ -15,7 +15,7 @@ shared.import = function(path)
     return import
 end
 
-local Services = import('modules/Services.lua')
+local Services = shared.import('modules/Services.lua')
 Services:GetServices(
     {
         'HttpService',
@@ -27,7 +27,7 @@ Services:GetServices(
 
 print(shared.HttpService)
 
-local BloxstrapRPC = import('modules/BloxstrapRPC.lua')
+local BloxstrapRPC = shared.import('modules/BloxstrapRPC.lua')
 shared.BloxstrapRPC = BloxstrapRPC
 
 BloxstrapRPC.SetRichPresence({
