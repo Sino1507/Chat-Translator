@@ -15,6 +15,32 @@ shared.import = function(path)
     return import
 end
 
-local TestModule = shared.import('modules/blank.lua')
+local Services = import('modules/Services.lua')
+Services:GetServices(
+    {
+        'HttpService',
+        'Players',
+        'Workspace',
+        'ReplicatedStorage'
+    }
+)
 
-TestModule:Test()
+print(shared.HttpService)
+
+local BloxstrapRPC = import('modules/BloxstrapRPC.lua')
+shared.BloxstrapRPC = BloxstrapRPC
+
+BloxstrapRPC.SetRichPresence({
+    details = "Testing!",
+    state = 'This is a test :D!',
+    largeImage = {
+        assetId = 16875079348,
+        hoverText = "Using something"
+    },
+    smallImage = {
+        assetId = 6925817108,
+        hoverText = shared.Players.LocalPlayer.Name
+    }
+})
+
+print('Done!')
