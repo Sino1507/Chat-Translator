@@ -15,6 +15,8 @@ shared.import = function(path)
     return import
 end
 
+print('Yes!')
+
 local Services = shared.import('modules/Services.lua')
 Services:GetServices(
     {
