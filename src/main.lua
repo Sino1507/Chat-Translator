@@ -1,6 +1,4 @@
 --
-repeat wait() until game:IsLoaded()
-
 shared.import = function(path)
     local import
             
@@ -10,8 +8,7 @@ shared.import = function(path)
                             ("https://raw.githubusercontent.com/%s/%s/%s"):format(shared.user, shared.repo, path)
                         )
                     )()
-        end
-    end)
+        end)
 
     if not success then error(res) end 
 
