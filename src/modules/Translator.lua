@@ -9,11 +9,11 @@ function Translator:Encode(str)
     return str
 end
 
-function Translator:Translate(input)
-    shared.info('Got translation request:',input,' |',shared.currentISO)
+function Translator:Translate(input, isoCode)
+    shared.info('Got translation request:',input,' |',isoCode)
     local enc = Translator:Encode(input)
     local req = request({
-        Url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' .. shared.currentISO .. '&dt=t&q=' .. enc,
+        Url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' .. isoCode .. '&dt=t&q=' .. enc,
         Method = 'GET'
     })
 
