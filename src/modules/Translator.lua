@@ -1,25 +1,25 @@
 local Translator = {}
 
-function Translator:Encode(str)
-    str = str:gsub('([^%w%-%.%_%~])', function(c)
+function Translator.Encode(str)
+    str = str.gsub('([^%w%-%.%_%~])', function(c)
         return string.format('%%%02X', string.byte(c))
     end)
 
     return str
 end
 
-function Translator:Translate(input, isoCode)
+function Translator.Translate(input, isoCode)
     shared.info('Got translation request:',input,' |',isoCode)
-    local enc = input --Translator:Encode(input)
+    local enc =  Translator.Encode(input)
     local req = request({
         Url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' .. isoCode .. '&dt=t&q=' .. enc,
         Method = 'GET'
     })
 
-    shared.info('pre check...',shared.HttpService:JSONEncode(req))
+    shared.info('pre check...',shared.HttpService.JSONEncode(req))
     if req and req.StatusCode == 200 then
-        shared.info(shared.HttpService:JSONEncode(req))
-        local response = shared.HttpService:JSONDecode(req.Body)
+        shared.info(shared.HttpService.JSONEncode(req))
+        local response = shared.HttpService.JSONDecode(req.Body)
         if response then
             local translations = response[1] 
             local fullTranslation = ''
@@ -29,7 +29,7 @@ function Translator:Translate(input, isoCode)
             end
 
             shared.info('Translated',input,'to',fullTranslation)
-            return fullTranslation:match('^%s*(.-)%s*$')
+            return fullTranslation.match('^%s*(.-)%s*$')
         else
             shared.info('There was a critical error while translating:', req.StatusCode, response)
         end

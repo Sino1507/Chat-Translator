@@ -56,7 +56,7 @@ local Translator = shared.import('modules/Translator.lua')
 shared.Translator = Translator
 
 --[[
-local TestRequest = Translator:Translate('Hallo', shared.currentISOout)
+local TestRequest = Translator.Translate('Hallo', shared.currentISOout)
 if TestRequest == 'error' then 
     error('Translation does not seem to work right now!')
 end]]
@@ -80,9 +80,13 @@ if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then
         local args = {...}
         local method = getnamecallmethod()
 
+        if checkcaller() then 
+            return old_method(Self, ...)
+        end
+
         if Self == sayMessageRequest and method == 'FireServer' then
             shared.info('Intercepted message request:',args[1],' | ',args[2])
-            local output = ChatHandler:Handle(args[1])
+            local output = ChatHandler.Handle(args[1])
 
             if output ~= nil and output ~= '' then 
                 return old_method(Self, output, args[2] or 'All')
