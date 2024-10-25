@@ -32,8 +32,8 @@ shared.user = 'Sino1507'
 shared.repo = 'Chat-Translator/main/src'
 shared.entry = 'main.lua'
 
-shared.useBloxstrapRPC = true 
-shared.debugMode = true
+shared.useBloxstrapRPC = false 
+shared.debugMode = false
 
 loadstring(
     game:HttpGetAsync(
