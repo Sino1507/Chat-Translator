@@ -3,13 +3,23 @@ repeat wait() until game:IsLoaded()
 
 shared.import = function(path)
     local import
-    
+            
     local success, res = pcall(function()
-        import = loadstring(
-                    game:HttpGetAsync(
-                        ("https://raw.githubusercontent.com/%s/%s/%s"):format(shared.user, shared.repo, path)
-                    )
-                )()
+        if isfolder(shared.repo) and isfile(shared.repo..'/'..path) then 
+            import = loadstring(
+                readfile(shared.repo..'/'..path)
+            )()
+        else
+            if not isfolder(shared.repo) then makefolder(shared.repo) end
+
+            writefile(shared.repo..'/'..path, game:HttpGetAsync(
+                ("https://raw.githubusercontent.com/%s/%s/%s"):format(shared.user, shared.repo, path)
+            ))
+
+            import = loadstring(
+                        readfile(shared.repo..'/'..path)
+                    )()
+        end
     end)
 
     if not success then error(res) end 
