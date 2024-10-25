@@ -1,6 +1,6 @@
 # Chat Translator
 
-A Roblox Lua script that automatically translates player chat messages to make cross-language communication easy and accessible in your game.
+A Roblox Lua script that automatically translates player chat messages to make cross-language communication easy.
 
 ## Features
 
