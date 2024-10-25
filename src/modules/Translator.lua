@@ -18,6 +18,7 @@ function Translator:Translate(input, isoCode)
     })
 
     if req and req.StatusCode == 200 then
+        shared.info(req)
         local response = shared.HttpService:JSONDecode(req.Body)
         if response then
             local translations = response[1] 
