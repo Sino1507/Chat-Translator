@@ -1,7 +1,7 @@
 local Translator = {}
 
 function Translator.Encode(str)
-    str = str.gsub('([^%w%-%.%_%~])', function(c)
+    str = str:gsub('([^%w%-%.%_%~])', function(c)
         return string.format('%%%02X', string.byte(c))
     end)
 
