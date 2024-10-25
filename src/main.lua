@@ -53,11 +53,13 @@ shared.currentISOout = 'en' -- DEFAULT ENGLISH ISO
 shared.translateOut = true 
 
 local Translator = shared.import('modules/Translator.lua')
+shared.Translator = Translator
 
+--[[
 local TestRequest = Translator:Translate('Hallo', shared.currentISOout)
 if TestRequest == 'error' then 
     error('Translation does not seem to work right now!')
-end
+end]]
 
 shared.info('Translation is imported and working!')
 

@@ -1,5 +1,4 @@
 local Translator = {}
-shared.Translator = Translator
 
 function Translator:Encode(str)
     str = str:gsub('([^%w%-%.%_%~])', function(c)
@@ -11,7 +10,7 @@ end
 
 function Translator:Translate(input, isoCode)
     shared.info('Got translation request:',input,' |',isoCode)
-    local enc = Translator:Encode(input)
+    local enc = input --Translator:Encode(input)
     local req = request({
         Url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' .. isoCode .. '&dt=t&q=' .. enc,
         Method = 'GET'
