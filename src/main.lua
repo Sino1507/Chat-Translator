@@ -55,17 +55,30 @@ shared.translateOut = true
 local Translator = shared.import('modules/Translator.lua')
 shared.Translator = Translator
 
---[[
-local TestRequest = Translator.Translate('Hallo', shared.currentISOout)
+local TestRequest = shared.Translator.Translate('Hallo', shared.currentISOout)
 if TestRequest == 'error' then 
     error('Translation does not seem to work right now!')
-end]]
+end
 
 shared.info('Translation is imported and working!')
 
 local ChatHandler = shared.import('modules/ChatHandler.lua')
 
 shared.info('Starting hooks...')
+
+function hookmetamethod(obj, met, func)
+    setreadonly(getrawmetatable(game), false)
+    local old = getrawmetatable(game).__namecall
+    getrawmetatable(game).__namecall = newcclosure(function(self, ...)
+        local args = {...}
+        if getnamecallmethod() == met and self == obj and not checkcaller() and shared.pending == false then
+            return func(unpack(args))
+        end
+        return old(self, ...)
+    end)
+    setreadonly(getrawmetatable(game), true)
+end
+
 
 if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then 
     local events = shared.ReplicatedStorage:FindFirstChild("DefaultChatSystemChatEvents")
@@ -75,28 +88,15 @@ if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then
 
     shared.info('Game is using old chat method...')
 
-    local old_method = nil
-    old_method = hookmetamethod(game, '__namecall', newcclosure(function(Self, ...)
-        local args = {...}
-        local method = getnamecallmethod()
+    function sayMsg(msg, to)
+        shared.pending = true
+        sayMessageRequest:FireServer(msg, to)
+        shared.pending = false
+    end
 
-        if checkcaller() then 
-            return old_method(Self, ...)
-        end
-
-        if Self == sayMessageRequest and method == 'FireServer' then
-            shared.info('Intercepted message request:',args[1],' | ',args[2])
-            local output = ChatHandler.Handle(args[1])
-
-            if output ~= nil and output ~= '' then 
-                return old_method(Self, output, args[2] or 'All')
-            else
-                return 
-            end
-        end
-
-        return old_method(Self, ...)
-    end))
+    hookmetamethod(sayMessageRequest, "FireServer", function(msg, to)
+        sayMsg(msg, to)
+    end)
 else
     return
 end
