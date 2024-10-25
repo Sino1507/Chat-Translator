@@ -18,13 +18,12 @@ function Translator:Translate(input, isoCode)
 
     if req and req.StatusCode == 200 then
         local response = shared.HttpService:JSONDecode(req.Body)
-        for i, v in pairs(response) do 
-            print(i,v)
-        end
 
         if response then
             local translations = response[1] 
             local fullTranslation = ''
+
+            local lang = typeof(response[3]) == 'string' and response[3] or response[2]
             
             for _, translation in ipairs(translations) do
                 fullTranslation = fullTranslation .. translation[1]
@@ -32,7 +31,7 @@ function Translator:Translate(input, isoCode)
 
             shared.info('Translated',input,'to',fullTranslation)
             shared.translating = false
-            return fullTranslation:match('^%s*(.-)%s*$')
+            return {fullTranslation:match('^%s*(.-)%s*$'), lang}
         else
             shared.info('There was a critical error while translating:', req.StatusCode, response)
         end

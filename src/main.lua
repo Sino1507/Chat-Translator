@@ -110,8 +110,11 @@ if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then
         task.spawn(function()
             result = ChatHandler:Handle(msg, false)
             shared.info('Got result from ChatHandler:',result)
-            if result ~= nil and result ~= msg then 
-                ChatHandler.ChatNotify(`(Translation: {result})`)
+
+            if result ~= nil and next(result) ~= nil and result ~= msg then 
+                local text = result[1]
+                local lang = result[2]
+                ChatHandler.ChatNotify(`([{lang}] Translation: {result})`)
             end 
         end)
 
@@ -127,7 +130,10 @@ if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then
         task.spawn(function()
             result = ChatHandler:Handle(msg)
             shared.info('Got result from ChatHandler:',result)
-            if result ~= nil then sayMsg(result, to) end 
+            if result ~= nil and next(result) ~= nil then
+                local text = result[1]
+                sayMsg(text, to) 
+            end 
             shared.pending = false
         end)
 
@@ -157,8 +163,8 @@ else
         if isSelf then 
             local result = ChatHandler:Handle(msg.Text)
             shared.info('Got result from ChatHandler:',result)
-            if result ~= nil then
-                msg.Text = result
+            if result ~= nil and next(result) ~= nil then
+                msg.Text = result[1]
             else
                 msg.Text = ''
             end 
@@ -166,9 +172,11 @@ else
         else
             local result = ChatHandler:Handle(msg.Text, false)
             shared.info('Got result from ChatHandler:',result)
-            if result ~= nil and result ~= msg.Text then
+            if result ~= nil and next(result) ~= nil and result ~= msg.Text then
+                local lang = result[2]
+                local text = result[1]
                 task.delay(0.5, function()
-                    main_channel:DisplaySystemMessage(`(Translation: {result})`, 'system')
+                    main_channel:DisplaySystemMessage(`([{lang}] Translation: {text})`, 'system')
                 end)
             end 
             shared.pending = false
