@@ -101,7 +101,7 @@ if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then
         if data == nil then return end
         if data.FromSpeaker == shared.Players.LocalPlayer.Name then return end -- Already hooked this 😎
 
-        shared.info('Intercepted message:',shared.HttpService:JSONEncode(data))
+        shared.info('Intercepted message:',data.Message,' | ',data.FromSpeaker)
 
         local msg = data.Message
 
@@ -114,7 +114,7 @@ if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then
             if result ~= nil and next(result) ~= nil and result ~= msg then 
                 local text = result[1]
                 local lang = result[2]
-                ChatHandler.ChatNotify(`([{lang}] Translation: {result})`)
+                ChatHandler.ChatNotify(`([{lang}] Translation: {text})`)
             end 
         end)
 
