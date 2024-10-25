@@ -18,7 +18,7 @@ function Translator:Translate(input)
     })
 
     if req and req.StatusCode == 200 then
-        local response = shared.HttpService:JSONDecode(req.body)
+        local response = shared.HttpService:JSONDecode(req.Body)
         if response then
             local translations = response[1] 
             local fullTranslation = ''
@@ -30,7 +30,7 @@ function Translator:Translate(input)
             shared.info('Translated',input,'to',fullTranslation)
             return fullTranslation:match('^%s*(.-)%s*$')
         else
-            shared.info('There was a critical error while translating:', req.StatusCode, req.body)
+            shared.info('There was a critical error while translating:', req.StatusCode, response)
         end
     else
         shared.info('Google seems unreachable at the time')
