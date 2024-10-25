@@ -175,3 +175,8 @@ else
         end
     end
 end
+
+shared.StarterGui:SetCore('SendNotification',{
+    Title = 'Chat-Translator', 
+    Text = 'The Translator is initiated and running!', 
+})
