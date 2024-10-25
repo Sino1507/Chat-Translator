@@ -1,4 +1,6 @@
 --
+repeat wait() until game:IsLoaded()
+
 shared.import = function(path)
     local import
     
