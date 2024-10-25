@@ -111,7 +111,7 @@ if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then
             result = ChatHandler:Handle(msg, false)
             shared.info('Got result from ChatHandler:',result)
 
-            if result ~= nil and next(result) ~= nil and result ~= msg then 
+            if result ~= nil and next(result) ~= nil and result[1] ~= msg then 
                 local text = result[1]
                 local lang = result[2]
                 ChatHandler.ChatNotify(`([{lang}] Translation: {text})`)
@@ -172,7 +172,7 @@ else
         else
             local result = ChatHandler:Handle(msg.Text, false)
             shared.info('Got result from ChatHandler:',result)
-            if result ~= nil and next(result) ~= nil and result ~= msg.Text then
+            if result ~= nil and next(result) ~= nil and result[1] ~= msg.Text then
                 local lang = result[2]
                 local text = result[1]
                 task.delay(0.5, function()
