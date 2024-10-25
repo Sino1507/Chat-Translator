@@ -17,8 +17,9 @@ function Translator:Translate(input, isoCode)
         Method = 'GET'
     })
 
+    shared.info('pre check...',shared.HttpService:JSONEncode(req))
     if req and req.StatusCode == 200 then
-        shared.info(req)
+        shared.info(shared.HttpService:JSONEncode(req))
         local response = shared.HttpService:JSONDecode(req.Body)
         if response then
             local translations = response[1] 
