@@ -15,8 +15,8 @@ shared.import = function(path)
     return import
 end
 
-shared.info = function(args)
-    if shared.debugMode then return print('[DEBUG]',args) end
+shared.info = function(...)
+    if shared.debugMode == true then return print('[DEBUG]',...) end
 end
 
 local Services = shared.import('modules/Services.lua')
@@ -42,5 +42,5 @@ end
 
 shared.info('Everything mandetory is now imported. Beginning...')
 
-local isoCodes = import('modules/isoCodes.lua')
+local isoCodes = shared.import('modules/isoCodes.lua')
 shared.info('Currently supported isoCodes:', shared.HttpService:JSONEncode(shared.isoCodes))
