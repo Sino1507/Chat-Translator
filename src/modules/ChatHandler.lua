@@ -73,6 +73,8 @@ function ChatHandler:Handle(message, speaker)
     else
         result = ChatHandler:HandleTranslation(message, isSelf)
     end
+
+    return result
 end
 
 

@@ -88,6 +88,8 @@ if shared.Players.LocalPlayer.PlayerGui:FindFirstChild('Chat') then
                 return 
             end
         end
+
+        return old_method(Self, ...)
     end))
 else
     return
