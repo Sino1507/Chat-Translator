@@ -10,6 +10,6 @@ local isoCodes = {
 	"sl", "sp", "es",
 	"sv-SE", "tr"
 }
-shared.isoCode = isoCodes
+shared.isoCodes = isoCodes
 
 return isoCodes
